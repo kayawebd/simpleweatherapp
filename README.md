@@ -15,7 +15,7 @@ The Simple Weather App is a straightforward web application that allows you to c
 
 ## Demo
 
-You can try out the Simple Weather App live by visiting [this link](http://kayawebdesign.com/weather/).
+You can try out the Simple Weather App live by visiting (http://kayawebdesign.com/simpleweatherapp/).
 
 ## Getting Started
 
