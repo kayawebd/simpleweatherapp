@@ -2,7 +2,8 @@
 
 The Simple Weather App is a straightforward web application that allows you to check the local weather without requiring location permission. It uses approximate location based on your IP address, offers a search function to look up weather for other locations, and features dynamic backgrounds that change based on the weather location.
 
-![Screenshot of the Weather App](screenshot.png)
+![image](https://github.com/kayawebd/simpleweatherapp/assets/109594228/9422440e-e839-4bc0-9f3a-ef01bac86b6f)
+
 
 ## Features
 
@@ -14,7 +15,7 @@ The Simple Weather App is a straightforward web application that allows you to c
 
 ## Demo
 
-You can try out the Simple Weather App live by visiting [this link](http://kayawebdesign.com/weather/).
+You can try out the Simple Weather App live by visiting (http://kayawebdesign.com/simpleweatherapp/).
 
 ## Getting Started
 
