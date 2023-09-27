@@ -1,31 +1,64 @@
 let weather = {
   apiKey: "d1d60e9fb085cd41f6a85061808d1369",
   fetchWeather: function () {
-    fetch("http://www.geoplugin.net/json.gp")
-      .then((response) => response.json())
-      .then((data) => {
-        const CITY = data.geoplugin_city;
-        const SEARCH_CITY = document.querySelector(".searchBar").value;
-        if (SEARCH_CITY === "") {
+    if (document.querySelector(".searchBar").value) {
+      const SEARCH_CITY = document.querySelector(".searchBar").value;
+      const SEARCH_APIURL = `https://api.openweathermap.org/data/2.5/weather?q=${SEARCH_CITY}&units=metric&appid=${this.apiKey}`;
+      fetch(SEARCH_APIURL)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("No weather found.");
+          }
+          return response.json();
+        })
+        .then((data) => weather.displayWeather(data))
+        .catch((error) => {
+          console.error("Error fetching weather:", error);
+        });
+    } else {
+      // If the acess location is permitted in the browser
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          const APIURL = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${weather.apiKey}`;
+          fetch(APIURL)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("No weather found.");
+              }
+              return response.json();
+            })
+            .then((data) => weather.displayWeather(data))
+            .catch((error) => {
+              console.error("Error fetching weather:", error);
+            });
+        });
+      } else {
+        console.error("Geolocation is not supported by your browser.");
+      }
+      // If location is NOT permitted 
+      fetch("https://api.geoapify.com/v1/ipinfo?apiKey=b08107a3a937447884493a9009335655")
+        .then((response) => response.json())
+        .then((data) => {
+          const CITY = data.city.name;
           const APIURL = `https://api.openweathermap.org/data/2.5/weather?q=${CITY}&units=metric&appid=${this.apiKey}`;
           return fetch(APIURL);
-        } else {
-          const APIURL = `https://api.openweathermap.org/data/2.5/weather?q=${SEARCH_CITY}&units=metric&appid=${this.apiKey}`;
-          return fetch(APIURL);
-        }
-      })
-      .then((response) => {
-        if (!response.ok) {
-          alert("No weather found.");
-          throw new Error("No weather found.");
-        }
-        return response.json();
-      })
-      .then((data) => this.displayWeather(data))
-      .catch((error) => {
-        console.error("Error fetching weather:", error);
-      });
+        })
+        .then((response) => {
+          if (!response.ok) {
+            alert("No weather found.");
+            throw new Error("No weather found.");
+          }
+          return response.json();
+        })
+        .then((data) => this.displayWeather(data))
+        .catch((error) => {
+          console.error("Error fetching weather:", error);
+        });
+    }
   },
+
   displayWeather: function (data) {
     const { name } = data;
     const { icon, description } = data.weather[0];
@@ -33,7 +66,6 @@ let weather = {
     const { speed } = data.wind;
     const { sunrise, sunset } = data.sys;
     const { country } = data.sys;
-
     const FORMATTED_SUNRISE_TIME = new Date(sunrise * 1000).toLocaleTimeString(
       "en-AU",
       {
@@ -48,7 +80,6 @@ let weather = {
         minute: "2-digit",
       }
     );
-
     document.querySelector(".weather_city").innerText =
       "Weather in " + name + ", " + country;
     document.querySelector(".icon").src =
@@ -81,12 +112,9 @@ let weather = {
     this.fetchWeather(document.querySelector(".searchBar").value);
   },
 };
-
-// add search button
 document.querySelector(".search button").addEventListener("click", function () {
   weather.search();
 });
-
 document
   .querySelector(".searchBar")
   .addEventListener("keyup", function (event) {
