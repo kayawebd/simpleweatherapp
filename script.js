@@ -106,7 +106,7 @@ let weather = {
     document.querySelector(".searchBar").value = "";
     // change background image acrodding to the city
     document.body.style.backgroundImage =
-      "url('https://source.unsplash.com/1600x900/?landscape+" + name + "')";
+      "url('https://source.unsplash.com/1600x900/?landscape+" + "')";
   },
   search: function () {
     this.fetchWeather(document.querySelector(".searchBar").value);

@@ -1,11 +1,10 @@
 body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    font-family: 'Open Sans', sans-serif;
-    background: #222;
-    background-image: url('https://source.unsplash.com/1600x900/?landscape');
+    font-family: Verdana, Arial, sans-serif;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -94,4 +93,13 @@ button:hover {
     position: absolute;
     top: 0;
     left: 20px;
+}
+
+footer {
+    text-align: center;
+    color: rgb(255, 255, 255);
+}
+
+small a {
+    color: rgb(255, 255, 255);
 }
